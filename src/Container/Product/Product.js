@@ -151,7 +151,7 @@ export class Product extends Component {
     render() {
         const { productInformation, productReviews } = this.state;
         const [{ isLoggedIn }] = this.context;
-        console.log(isLoggedIn)
+
         let productReviewsContent = null;
         if (productReviews) {
             productReviewsContent = productReviews.map(review => (
