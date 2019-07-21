@@ -22,11 +22,7 @@ const routes = {
       <LogOutPage /> 
     </PrivateRouter>
   ) ,
-  '/product/:id': ({id}) => isLoggedIn => (
-    <PrivateRouter isLoggedIn={isLoggedIn}>
-      <ProductPage productId={id} />
-    </PrivateRouter>
-  ),
+  '/product/:id': ({id}) => () =>  <ProductPage productId={id} />,
 };
 
 function App() {
