@@ -5,9 +5,12 @@ import './normalize.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { StateProvider } from './state/StateContext';
+import { getItemFromLocalStorage } from './Share/LocalStorage';
+
+const userToken = getItemFromLocalStorage('token');
 
 const initialState = {
-    isLoggedIn: false,
+    isLoggedIn: userToken ? true : false,
     userName: '',
     productList: new Map(),
     productReviewList: new Map()
