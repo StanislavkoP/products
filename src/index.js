@@ -19,29 +19,38 @@ const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case 'AUTH_USER_SUCCESS':
-        return {
-            ...state,
-            isLoggedIn: action.isLoggedIn,
-            userName: action.userName
-        }
+            return {
+                ...state,
+                isLoggedIn: action.isLoggedIn,
+                userName: action.userName
+            }
 
         case 'USER_LOG_OUT':
-        return {
-            ...state,
-            isLoggedIn: false
-        }
+            return {
+                ...state,
+                isLoggedIn: false
+            }
         
         case 'GET_PRODUCT_LIST_SUCCESS':
-        return {
-            ...state,
-            productList: action.productList
-        }
+            return {
+                ...state,
+                productList: action.productList
+            }
 
-        case 'GET_PRODUCT_REVIEW_LIST_SUCCESS':
-        return {
-            ...state,
-            productReviewList: action.reviews
-        }
+        case 'GET_PRODUCT_REVIEW':
+            return {
+                ...state,
+                productReviewList: action.reviews
+            }
+
+        case 'ADD_NEW_REVIEW':
+            const reviewList = state.productReviewList.get(action.productId);
+            const newReviewList = [...reviewList, action.review];
+
+            return {
+                ...state,
+                productReviewList: state.productReviewList.set(action.productId, newReviewList)
+            }
 
         default : return state;
     }
