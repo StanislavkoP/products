@@ -62,14 +62,12 @@ export class Product extends Component {
                 const productReviews = response;
 
                 const newProductReviews = new Map();
-                productReviews.forEach(review => {
-                    newProductReviews.set(review.product, review)
-                });
+                newProductReviews.set(parseFloat(productId), productReviews)
 
                 this.setState({productReviews})
 
                 dispatch({
-                    type: 'GET_PRODUCT_REVIEW_LIST_SUCCESS',
+                    type: 'GET_PRODUCT_REVIEW',
                     reviews: newProductReviews
                 });
             })
@@ -114,30 +112,46 @@ export class Product extends Component {
 
         Api.productsApi.sendNewReview(productId, newReviewInform)
             .then(response => {
-                //TODO Added reducer for adding review
-                console.log(response)
+                const [{ productReviewList, userName }, dispatch] = this.context;
+
+                const reviewListCurrentProduct = productReviewList.get(parseInt(productId));
+                const reviewListLength = reviewListCurrentProduct.length;
+                const lastReview = reviewListCurrentProduct[reviewListLength - 1];
+                const lastReviewId = lastReview.id;
+                
+                const newReview = {};
+                newReview.id = lastReviewId + 1;
+                newReview.username = userName;
+                newReview.rate = newReviewInform.rate;
+                newReview.text = newReviewInform.text;
+                newReview.created_at = new Date();
+            
+                dispatch({
+                    type: 'ADD_NEW_REVIEW',
+                    productId: parseInt(productId),
+                    review: newReview
+
+                });
+
                 this.setState({
-                    // productReviews: [
-                    //     ...this.state.productReviews,
-                    //     {
-                    //         ...newReviewInform,
-                    //         id: 
-                    //         username: this.context.userName
-                    //     }
-                    // ],
+                    productReviews: [
+                        newReview,
+                        ...this.state.productReviews
+                    ],
                     newReviewInform: {
                         rate: 0,
                         text: ''
                     },
                     isHoveredRateValue: 0,
                     isRatingClicked: false,
-                })
+                });
             })
     };
     
     render() {
         const { productInformation, productReviews } = this.state;
-
+        const [{ isLoggedIn }] = this.context;
+        console.log(isLoggedIn)
         let productReviewsContent = null;
         if (productReviews) {
             productReviewsContent = productReviews.map(review => (
@@ -154,6 +168,9 @@ export class Product extends Component {
                     }
                     <p>
                         { review.text }
+                    </p>
+                    <p>
+                        { new Date(review.created_at).toLocaleDateString() }
                     </p>
                     <StarRatingPanel
                         name={ review.id.toString() }
@@ -174,15 +191,20 @@ export class Product extends Component {
                         <div>
                             <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
                             <p>{ productInformation.title }</p>
-                            <ControlsCreateReview 
-                                ratingValue={this.state.isHoveredRateValue}
-                                reviewText={this.state.newReviewInform.text}
-                                onChangeTextReview={this.onChangeNewReview}
-                                onRatingClick={this.onRatingClick}
-                                onRatingHover={this.onRatingHover}
-                                onRatingHoverOut={this.onRatingHoverOut}
-                                onSendReview={this.onSendReview}
-                            />
+                            {
+                                isLoggedIn
+                                &&
+                                <ControlsCreateReview 
+                                    ratingValue={this.state.isHoveredRateValue}
+                                    reviewText={this.state.newReviewInform.text}
+                                    onChangeTextReview={this.onChangeNewReview}
+                                    onRatingClick={this.onRatingClick}
+                                    onRatingHover={this.onRatingHover}
+                                    onRatingHoverOut={this.onRatingHoverOut}
+                                    onSendReview={this.onSendReview}
+                                />
+                            }
+
 
                             <div>
                                 {
