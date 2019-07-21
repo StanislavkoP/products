@@ -44,7 +44,7 @@ class Auth extends React.Component {
                             userName: userData.name
                         });
 
-                        navigate('/dashboard', true);
+                        navigate('/', true);
                     })
                     
                 } else {
