@@ -16,7 +16,6 @@ import './App.css';
 const routes = {
   '/': () =>  () => <DashboardPage/>,
   '/auth': () =>  () => <AuthPage/>,
-  '/dashboard': () => () => <DashboardPage/>,
   '/logout': () => isLoggedIn => (
     <PrivateRouter isLoggedIn={isLoggedIn}>
       <LogOutPage /> 
