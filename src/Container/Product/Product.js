@@ -5,6 +5,8 @@ import { StateContext } from '../../state/StateContext';
 import Api from '../../Share/Api';
 
 import ControlsCreateReview from './ControlsCreateReview/ControlsCreateReview';
+import StarRatingPanel from '../../Components/Form/StarRating/StarRating';
+
 
 export class Product extends Component {
 
@@ -14,7 +16,9 @@ export class Product extends Component {
         newReviewInform: {
             rate: 0,
             text: ''
-        }
+        },
+        isHoveredRateValue: 0,
+        isRatingClicked: false,
     }
 
     static contextType = StateContext;
@@ -69,11 +73,13 @@ export class Product extends Component {
                     reviews: newProductReviews
                 });
             })
-    }
+    };
 
     onChangeNewReview = (e) => {
         const inputName = e.target.name;
         const inputValue = e.target.value;
+
+        if(inputName ===  'text' && inputValue.trim().length > 3000) return;
 
         this.setState({
             newReviewInform: {
@@ -81,7 +87,26 @@ export class Product extends Component {
                 [inputName]: inputValue
             }
         })
-    }
+    };
+
+    onRatingClick = rateValue => {
+        this.setState({
+            isRatingClicked: true,
+            newReviewInform: {
+                ...this.state.newReviewInform,
+                rate: rateValue
+            }
+        })
+    };
+
+    onRatingHover = (value) => this.setState({ isHoveredRateValue: value })
+
+    onRatingHoverOut = () => {
+        const newRateValue = this.state.isRatingClicked ? this.state.newReviewInform.rate : 0;
+        this.setState({
+            isHoveredRateValue: newRateValue
+        })
+    };
 
     onSendReview = () => {
         const { productId } = this.props;
@@ -89,9 +114,26 @@ export class Product extends Component {
 
         Api.productsApi.sendNewReview(productId, newReviewInform)
             .then(response => {
-                console.log(response);
+                //TODO Added reducer for adding review
+                console.log(response)
+                this.setState({
+                    // productReviews: [
+                    //     ...this.state.productReviews,
+                    //     {
+                    //         ...newReviewInform,
+                    //         id: 
+                    //         username: this.context.userName
+                    //     }
+                    // ],
+                    newReviewInform: {
+                        rate: 0,
+                        text: ''
+                    },
+                    isHoveredRateValue: 0,
+                    isRatingClicked: false,
+                })
             })
-    }
+    };
     
     render() {
         const { productInformation, productReviews } = this.state;
@@ -113,9 +155,12 @@ export class Product extends Component {
                     <p>
                         { review.text }
                     </p>
-                    <p>
-                        { review.rate }
-                    </p>
+                    <StarRatingPanel
+                        name={ review.id.toString() }
+                        starCount={ 5 }
+                        value={ review.rate }
+                        editing={false}
+                    />
                 </div>
             ))
         }
@@ -130,7 +175,12 @@ export class Product extends Component {
                             <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
                             <p>{ productInformation.title }</p>
                             <ControlsCreateReview 
+                                ratingValue={this.state.isHoveredRateValue}
+                                reviewText={this.state.newReviewInform.text}
                                 onChangeTextReview={this.onChangeNewReview}
+                                onRatingClick={this.onRatingClick}
+                                onRatingHover={this.onRatingHover}
+                                onRatingHoverOut={this.onRatingHoverOut}
                                 onSendReview={this.onSendReview}
                             />
 
