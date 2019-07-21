@@ -3,6 +3,7 @@ import { useRoutes, navigate } from 'hookrouter';
 import { useStateValue } from './state/StateContext';
 import { getItemFromLocalStorage } from './Share/LocalStorage';
 
+import PrivateRouter from './Container/PrivateRoute';
 import Header from './Components/Header/Header';
 import AuthPage from './Container/Auth/Auth';
 import LogOutPage from './Container/LogOut';
@@ -13,16 +14,24 @@ import './App.css';
 
 
 const routes = {
-  '/': () => <DashboardPage/>,
-  '/auth': () => <AuthPage/>,
-  '/logout': () => <LogOutPage />,
-  '/dashboard': () => <DashboardPage/>,
-  '/product/:id': ({id}) => <ProductPage productId={id} />,
+  '/': () =>  () => <DashboardPage/>,
+  '/auth': () =>  () => <AuthPage/>,
+  '/dashboard': () => () => <DashboardPage/>,
+  '/logout': () => isLoggedIn => (
+    <PrivateRouter isLoggedIn={isLoggedIn}>
+      <LogOutPage /> 
+    </PrivateRouter>
+  ) ,
+  '/product/:id': ({id}) => isLoggedIn => (
+    <PrivateRouter isLoggedIn={isLoggedIn}>
+      <ProductPage productId={id} />
+    </PrivateRouter>
+  ),
 };
 
 function App() {
   const routeResult = useRoutes(routes);
-  const [, dispatch] = useStateValue();
+  const [{isLoggedIn}, dispatch] = useStateValue();
 
   useEffect(() => {
     if (getItemFromLocalStorage('token')) {
@@ -40,16 +49,15 @@ function App() {
         
       }, 120 * 60 * 1000)
 
-      navigate('/dashboard', true);
-
     }
+
   }, [dispatch])
 
   return (
       <div className="App">
         <Header/>
 
-        { routeResult }
+        { routeResult(isLoggedIn) }
       </div>
   );
 }
