@@ -3,6 +3,7 @@ import { StyledAuthForm, ErrorMessage} from './AuthFormStyles';
 import InputGroup from '../../../Components/Form/InputGroup/InputGroup'; 
 import TextInput from '../../../Components/Form/InputText/InputText';
 import Button from '../../../Components/Button/Button';
+import TypeAuthSwitcher from './TypeAuthSwitcher/TypeAuthSwitcher';
 
 function AuthForm ({onSendForm, errorMessage}) {
     const [userData, setUserData] = useState({name: '', password: ''});
@@ -14,7 +15,8 @@ function AuthForm ({onSendForm, errorMessage}) {
 
         setUserData({
             ...userData,
-            [inputName]: inputValue
+            [inputName]: inputValue,
+
         });
 
     };
@@ -27,19 +29,8 @@ function AuthForm ({onSendForm, errorMessage}) {
 
 
     return (
-        <div>
-            <div>
-                <label>
-                    <input type="radio" onChange={onChangeTypeAuth} checked={typeAuth === 'signIn'} name="typeAuth" value="signIn"/>
-                    <div>SignIn</div>
-                </label>
-                <label>
-                    <input type="radio" onChange={onChangeTypeAuth} checked={typeAuth === 'logIn'} name="typeAuth" value="logIn"/>
-                    <div>LogIn</div>
-                </label>
-
-            </div>
             <StyledAuthForm>
+                <TypeAuthSwitcher onChangeTypeAuth={onChangeTypeAuth} currentTypeAuth={ typeAuth }/>
                 {
                     errorMessage && <ErrorMessage>{ errorMessage }</ErrorMessage>
                 }
@@ -53,7 +44,6 @@ function AuthForm ({onSendForm, errorMessage}) {
 
                 <Button type="button" onClick={() => onSendForm(userData, typeAuth)}>Send</Button>
             </StyledAuthForm>
-        </div>
     )
 };
 

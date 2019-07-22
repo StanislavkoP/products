@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyledForm } from './FormStyles';
 
-function Form ({children}) {
+function Form ({children, ...props}) {
     return (
-        <StyledForm>
+        <StyledForm {...props}>
             { children }
         </StyledForm>
     )

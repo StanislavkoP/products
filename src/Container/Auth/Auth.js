@@ -12,12 +12,10 @@ class Auth extends React.Component {
         sendFormLoading: false,
     }
 
-    static contextType = StateContext
+    static contextType = StateContext;
 
-    
     onSendAuthForm = (userData, typeAuth) => {
         const [, dispatch] = this.context;
-
 
         this.setState({ sendFormLoading: true } , () => {
             sendForm.call(this);
@@ -68,19 +66,12 @@ class Auth extends React.Component {
             errorMessage
             
         } = this.state;
-        const [{ isLoggedIn }] = this.context;
 
         return (
-            <React.Fragment>
-                {
-                    isLoggedIn && <p>'log in'</p>
-                }
-            
             <AuthForm
                 onSendForm={this.onSendAuthForm}
                 errorMessage={ errorMessage }
             />
-            </React.Fragment>
         )
     }
 };
