@@ -6,6 +6,7 @@ import Api from '../../Share/Api';
 
 import ControlsCreateReview from './ControlsCreateReview/ControlsCreateReview';
 import StarRatingPanel from '../../Components/Form/StarRating/StarRating';
+import { ProductWrapper, ProductImgWrapper, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent } from './ProductStyles';
 
 
 export class Product extends Component {
@@ -183,38 +184,43 @@ export class Product extends Component {
         }
 
         return (
-            <React.Fragment>
+            <ProductWrapper>
                 {
                     productInformation
-                    &&
-                    <React.Fragment>                   
-                        <div>
-                            <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
-                            <p>{ productInformation.title }</p>
-                            {
-                                isLoggedIn
-                                &&
-                                <ControlsCreateReview 
-                                    ratingValue={this.state.isHoveredRateValue}
-                                    reviewText={this.state.newReviewInform.text}
-                                    onChangeTextReview={this.onChangeNewReview}
-                                    onRatingClick={this.onRatingClick}
-                                    onRatingHover={this.onRatingHover}
-                                    onRatingHoverOut={this.onRatingHoverOut}
-                                    onSendReview={this.onSendReview}
-                                />
-                            }
+                    &&               
+                        <React.Fragment>
+                            <ProductColumnLeft>
+                                <ProductColumnLeftContent>
+                                    <ProductImgWrapper>
+                                        <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
+                                    </ProductImgWrapper>
+                                    <p>{ productInformation.title }</p>
+                                    {
+                                        isLoggedIn
+                                        &&
+                                        <ControlsCreateReview 
+                                        ratingValue={this.state.isHoveredRateValue}
+                                        reviewText={this.state.newReviewInform.text}
+                                        onChangeTextReview={this.onChangeNewReview}
+                                        onRatingClick={this.onRatingClick}
+                                        onRatingHover={this.onRatingHover}
+                                        onRatingHoverOut={this.onRatingHoverOut}
+                                        onSendReview={this.onSendReview}
+                                        />
+                                    }
+                                </ProductColumnLeftContent>
+                            </ProductColumnLeft>
 
 
-                            <div>
+
+                            <ProductColumnRight>
                                 {
                                     productReviewsContent
                                 }
-                            </div>
-                        </div>
-                    </React.Fragment>
+                            </ProductColumnRight>
+                        </React.Fragment>
                 }
-            </React.Fragment>
+            </ProductWrapper>
         )
     }
 }

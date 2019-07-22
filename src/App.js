@@ -52,15 +52,10 @@ function App() {
   return (
       <div className="App">
         <Header/>
-        <ContentWrapper>
-          { routeResult(isLoggedIn) }
-        </ContentWrapper>
+        
+        { routeResult(isLoggedIn) }
       </div>
   );
 }
 
 export default App;
-
-const ContentWrapper = styled.div`
-  padding: 20px;
-`;
