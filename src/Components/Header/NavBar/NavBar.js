@@ -18,8 +18,8 @@ function NavBar ({isLoggedIn}) {
     if (isLoggedIn) {
         links = (
             <React.Fragment>
-                <NavLink href="/logout">Log Out</NavLink>
                 <NavLink href="/" className={path === '/' ? 'active' : ''}>Products</NavLink>
+                <NavLink href="/logout">Log Out</NavLink>
             </React.Fragment>
         )
     }
