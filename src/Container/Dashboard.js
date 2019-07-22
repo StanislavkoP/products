@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { A } from 'hookrouter';
-import Api, { baseURL } from '../Share/Api';
+import Api from '../Share/Api';
 import { StateContext } from '../state/StateContext';
+import ProductList from '../Components/Products/ProductsList/ProductsList';
 
 export class Dashboard extends Component {
 
@@ -29,17 +29,9 @@ export class Dashboard extends Component {
         const [{ productList }] = this.context;
 
         return (
-            <div>
-                {
-                    [...productList.values()].map(product => (
-                        <div key={product.id}>
-                            <img src={`${baseURL}/static/${product.img}`} alt={product.title}/>
-                            <p>{ product.title }</p>
-                            <A href={`product/${product.id}`}>Review</A>
-                        </div>
-                    ))
-                }
-            </div>
+            <ProductList 
+                productList={ [...productList.values()] }
+            />
         )
     }
 };
