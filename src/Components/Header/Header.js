@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useStateValue } from '../../state/StateContext';
 
-import { StyledHeader } from './HeaderStyles';
+import { StyledHeader, HelloUserText } from './HeaderStyles';
 import NavBar from './NavBar/NavBar';
 
 function Header () {
@@ -11,7 +11,7 @@ function Header () {
     return (        
         <StyledHeader>
             {
-                isLoggedIn && <p>Hello, { userName }</p>
+                isLoggedIn && userName && <HelloUserText>Hello, { userName }!</HelloUserText>
             }
             <NavBar isLoggedIn={ isLoggedIn }/>
         </StyledHeader>

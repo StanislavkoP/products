@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useRoutes, navigate } from 'hookrouter';
 import { useStateValue } from './state/StateContext';
 import { getItemFromLocalStorage } from './Share/LocalStorage';
@@ -51,10 +52,15 @@ function App() {
   return (
       <div className="App">
         <Header/>
-
-        { routeResult(isLoggedIn) }
+        <ContentWrapper>
+          { routeResult(isLoggedIn) }
+        </ContentWrapper>
       </div>
   );
 }
 
 export default App;
+
+const ContentWrapper = styled.div`
+  padding: 20px;
+`;
