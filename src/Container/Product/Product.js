@@ -5,8 +5,8 @@ import { StateContext } from '../../state/StateContext';
 import Api from '../../Share/Api';
 
 import ControlsCreateReview from './ControlsCreateReview/ControlsCreateReview';
-import StarRatingPanel from '../../Components/Form/StarRating/StarRating';
-import { ProductWrapper, ProductImgWrapper, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent } from './ProductStyles';
+import ReviewList from '../../Components/Review/ReviewList/ReviewList';
+import { ProductWrapper, ProductImgWrapper, ProductTitle, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent } from './ProductStyles';
 
 
 export class Product extends Component {
@@ -153,36 +153,6 @@ export class Product extends Component {
         const { productInformation, productReviews } = this.state;
         const [{ isLoggedIn }] = this.context;
 
-        let productReviewsContent = null;
-        if (productReviews) {
-            productReviewsContent = productReviews.map(review => (
-                <div key={review.id} style={{borderBottom: '1px solid black'}}>
-                    {
-                        review.created_by
-                        &&
-                        <div>
-                            <div>{ review.created_by.first_name }</div>
-                            <div>{ review.created_by.last_name }</div>
-                            <div>{ review.created_by.email }</div>
-                            <div>{ review.created_by.username }</div>
-                        </div>
-                    }
-                    <p>
-                        { review.text }
-                    </p>
-                    <p>
-                        { new Date(review.created_at).toLocaleDateString() }
-                    </p>
-                    <StarRatingPanel
-                        name={ review.id.toString() }
-                        starCount={ 5 }
-                        value={ review.rate }
-                        editing={false}
-                    />
-                </div>
-            ))
-        }
-
         return (
             <ProductWrapper>
                 {
@@ -194,18 +164,18 @@ export class Product extends Component {
                                     <ProductImgWrapper>
                                         <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
                                     </ProductImgWrapper>
-                                    <p>{ productInformation.title }</p>
+                                    <ProductTitle>{ productInformation.title }</ProductTitle>
                                     {
                                         isLoggedIn
                                         &&
                                         <ControlsCreateReview 
-                                        ratingValue={this.state.isHoveredRateValue}
-                                        reviewText={this.state.newReviewInform.text}
-                                        onChangeTextReview={this.onChangeNewReview}
-                                        onRatingClick={this.onRatingClick}
-                                        onRatingHover={this.onRatingHover}
-                                        onRatingHoverOut={this.onRatingHoverOut}
-                                        onSendReview={this.onSendReview}
+                                            ratingValue={this.state.isHoveredRateValue}
+                                            reviewText={this.state.newReviewInform.text}
+                                            onChangeTextReview={this.onChangeNewReview}
+                                            onRatingClick={this.onRatingClick}
+                                            onRatingHover={this.onRatingHover}
+                                            onRatingHoverOut={this.onRatingHoverOut}
+                                            onSendReview={this.onSendReview}
                                         />
                                     }
                                 </ProductColumnLeftContent>
@@ -215,7 +185,7 @@ export class Product extends Component {
 
                             <ProductColumnRight>
                                 {
-                                    productReviewsContent
+                                    productReviews ? <ReviewList reviewList={ productReviews } /> : <p>No reviews</p>
                                 }
                             </ProductColumnRight>
                         </React.Fragment>

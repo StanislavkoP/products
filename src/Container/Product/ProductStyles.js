@@ -12,12 +12,16 @@ export const ProductColumnLeft = styled.div`
 `;
 
 export const ProductColumnRight = styled.div`
-    width: 60%
+    width: 60%;
 `;
 
 export const ProductColumnLeftContent = styled.div`
     position: sticky;
     top: 0;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+
 `;
 
 export const ProductImgWrapper = styled.div`
@@ -29,4 +33,7 @@ export const ProductImgWrapper = styled.div`
         display: block;
         width: 100%;
     }
+`;
+
+export const ProductTitle = styled.p`
 `;

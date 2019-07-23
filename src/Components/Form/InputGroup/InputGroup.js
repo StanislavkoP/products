@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyledInputGroup, StyledLabel } from './InputGroupStyles';
 
-function InputGroup ({ labelText, children }) {
+function InputGroup ({ labelText, children, ...props }) {
     return (
-        <StyledInputGroup>
+        <StyledInputGroup {...props}>
             <StyledLabel>
                 { labelText }
             </StyledLabel>

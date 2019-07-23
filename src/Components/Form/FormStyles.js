@@ -9,5 +9,5 @@ export const StyledForm = styled.form`
     margin: 0 auto;
     padding: 22px 16px;
     border: 1px solid black;
-    
+    box-sizing: border-box;
 `;

@@ -1,9 +1,6 @@
 import React from 'react';
-import Form from '../../../Components/Form/Form'
-import InputGroup from '../../../Components/Form/InputGroup/InputGroup'
-import TextArea from '../../../Components/Form/TextArea/TextArea';
 import Button from '../../../Components/Button/Button';
-import StarRatingPanel from '../../../Components/Form/StarRating/StarRating';
+import { CreateReviewForm, CreateReviewTextArea, CreateReviewInputGroup, StarRatingPanel } from './ControlsCreateReviewStyles';
 
 function ControlsCreateReview(props) {
 
@@ -19,21 +16,28 @@ function ControlsCreateReview(props) {
     } = props;
 
     return (
-        <Form>
-            <StarRatingPanel 
-                name="product-rate" 
-                starCount={ 5 }
-                value={ ratingValue }
-                onStarClick={ onRatingClick }
-                onStarHover={ onRatingHover }
-                onStarHoverOut={ onRatingHoverOut }
-            />
-            <InputGroup>
-                <TextArea name="text" onChange={onChangeTextReview} value={ reviewText }/>
-            </InputGroup>
+        <CreateReviewForm>
+            <CreateReviewInputGroup
+                labelText="Leave your rate"
+            >
+                <StarRatingPanel 
+                    name="product-rate" 
+                    starCount={ 5 }
+                    value={ ratingValue }
+                    onStarClick={ onRatingClick }
+                    onStarHover={ onRatingHover }
+                    onStarHoverOut={ onRatingHoverOut }
+                />
+            </CreateReviewInputGroup>
+
+            <CreateReviewInputGroup
+                labelText="Text your message"
+            >
+                <CreateReviewTextArea name="text" onChange={onChangeTextReview} value={ reviewText }/>
+            </CreateReviewInputGroup>
 
             <Button type="button" onClick={onSendReview}>Send</Button>
-        </Form>
+        </CreateReviewForm>
     )
 }
 
