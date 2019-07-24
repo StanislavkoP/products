@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import { useRoutes, navigate } from 'hookrouter';
 import { useStateValue } from './state/StateContext';
 import { getItemFromLocalStorage } from './Share/LocalStorage';
