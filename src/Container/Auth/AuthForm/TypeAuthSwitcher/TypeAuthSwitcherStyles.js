@@ -24,4 +24,5 @@ export const SwitcherItem = styled.label`
 
 export const WrapperControls = styled.div`
     display: flex;
+    margin-bottom: 12px;
 `;

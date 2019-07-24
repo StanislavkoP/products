@@ -7,4 +7,11 @@ export const StyledProductList = styled.ul`
     padding: 0;
     margin: 0;
     list-style: none;
+
+    @media only screen and (max-width: 560px) {
+        margin-right: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
 `;

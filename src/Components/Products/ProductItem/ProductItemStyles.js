@@ -25,6 +25,12 @@ export const StyledProductItem = styled.li`
             transform: scale(1.1)
         }
     }
+
+    @media only screen and (max-width: 560px) {
+        margin-right: 0;
+
+    }
+
 `;
 
 export const ProductItemContent = styled.div`

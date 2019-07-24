@@ -15,7 +15,8 @@ export const ReviewItemWrapper = styled.li`
 
 export const ReviewItemTextReview = styled.p`
     margin: 0;
-    text-align: left
+    text-align: left;
+    word-break: break-all;
 `;
 
 export const StyledStarRatingPanel = styled(StarRatingPanel)`
@@ -27,7 +28,7 @@ export const StyledStarRatingPanel = styled(StarRatingPanel)`
 
 export const ReviewItemCreatedByWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     border-bottom: 1px solid black;
     width: 100%;
 `;
@@ -36,8 +37,10 @@ export const ReviewItemInputGroup = styled(InputGroup)`
     flex-direction: row;
     align-items: center;
     font-weight: 300;
-    margin-right: 12px;
+    margin-right: 30px;
     color: #5d5c5c;
+    text-align: left;
+    flex-wrap: wrap;
 
     & label {
         font-weight: 600;
