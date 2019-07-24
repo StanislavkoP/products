@@ -5,7 +5,7 @@ import TextInput from '../../../Components/Form/InputText/InputText';
 import Button from '../../../Components/Button/Button';
 import TypeAuthSwitcher from './TypeAuthSwitcher/TypeAuthSwitcher';
 
-function AuthForm ({onSendForm, errorMessage}) {
+function AuthForm ({onSendForm, errorMessage, hideErrorMessage}) {
     const [userData, setUserData] = useState({name: '', password: ''});
     const [typeAuth, setTypeAuth] = useState('logIn');
 
@@ -13,6 +13,7 @@ function AuthForm ({onSendForm, errorMessage}) {
         const inputName = e.target.name;
         const inputValue = e.target.value;
 
+        hideErrorMessage();
         setUserData({
             ...userData,
             [inputName]: inputValue,
@@ -23,6 +24,7 @@ function AuthForm ({onSendForm, errorMessage}) {
 
     function onChangeTypeAuth (e) {
         const inputValue = e.target.value;
+        hideErrorMessage();
 
         setTypeAuth(inputValue);
     };
