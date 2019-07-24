@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { baseURL } from '../../Share/Api';
-
 import { StateContext } from '../../state/StateContext';
 import Api from '../../Share/Api';
 
-import ControlsCreateReview from './ControlsCreateReview/ControlsCreateReview';
-import ReviewList from '../../Components/Review/ReviewList/ReviewList';
-import { ProductWrapper, ProductImgWrapper, ProductTitle, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent } from './ProductStyles';
+import ReviewItemFull from '../../Components/Products/ProductItemFull/ProductItemFull';
+import Spinner from '../../Components/Spinner/Spinner';
 
 
 export class Product extends Component {
@@ -18,8 +15,11 @@ export class Product extends Component {
             rate: 0,
             text: ''
         },
+        newReviewError: null,
         isHoveredRateValue: 0,
         isRatingClicked: false,
+        isLoadingProductInformation: true,
+        isLoadingProductReviews: true,
     }
 
     static contextType = StateContext;
@@ -30,14 +30,14 @@ export class Product extends Component {
 
         if (productReviewList.has(productId)) {
             const productReviews = productReviewList.get(parseFloat(productId))
-            this.setState({productReviews});
+            this.setState({productReviews, isLoadingProductReviews: false});
 
             return;
         }
 
         if (productList.has(productId)) {
             const productInformation = productList.get(parseFloat(productId))
-            this.setState({productInformation});
+            this.setState({productInformation, isLoadingProductInformation: false});
 
             return;
         }
@@ -51,7 +51,7 @@ export class Product extends Component {
                     newProductList.set(product.id, product)
                 });
 
-                this.setState({productInformation: newProductList.get(parseFloat(productId))})
+                this.setState({productInformation: newProductList.get(parseFloat(productId)), isLoadingProductInformation: false})
                 
                 dispatch({
                     type: 'GET_PRODUCT_LIST_SUCCESS', productList: newProductList
@@ -65,7 +65,7 @@ export class Product extends Component {
                 const newProductReviews = new Map();
                 newProductReviews.set(parseFloat(productId), productReviews)
 
-                this.setState({productReviews})
+                this.setState({productReviews, isLoadingProductReviews: false})
 
                 dispatch({
                     type: 'GET_PRODUCT_REVIEW',
@@ -84,7 +84,8 @@ export class Product extends Component {
             newReviewInform: {
                 ...this.state.newReviewInform,
                 [inputName]: inputValue
-            }
+            },
+            newReviewError: null
         })
     };
 
@@ -110,6 +111,12 @@ export class Product extends Component {
     onSendReview = () => {
         const { productId } = this.props;
         const { newReviewInform } = this.state;
+
+        if (newReviewInform.text.trim().length === 0) {
+            this.setState({newReviewError: 'Please, text the review message'});
+
+            return;
+        }
 
         Api.productsApi.sendNewReview(productId, newReviewInform)
             .then(response => {
@@ -150,48 +157,34 @@ export class Product extends Component {
     };
     
     render() {
-        const { productInformation, productReviews } = this.state;
+        const { productInformation, productReviews, isLoadingProductInformation, isLoadingProductReviews, newReviewError } = this.state;
         const [{ isLoggedIn }] = this.context;
 
-        return (
-            <ProductWrapper>
-                {
-                    productInformation
-                    &&               
-                        <React.Fragment>
-                            <ProductColumnLeft>
-                                <ProductColumnLeftContent>
-                                    <ProductImgWrapper>
-                                        <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
-                                    </ProductImgWrapper>
-                                    <ProductTitle>{ productInformation.title }</ProductTitle>
-                                    {
-                                        isLoggedIn
-                                        &&
-                                        <ControlsCreateReview 
-                                            ratingValue={this.state.isHoveredRateValue}
-                                            reviewText={this.state.newReviewInform.text}
-                                            onChangeTextReview={this.onChangeNewReview}
-                                            onRatingClick={this.onRatingClick}
-                                            onRatingHover={this.onRatingHover}
-                                            onRatingHoverOut={this.onRatingHoverOut}
-                                            onSendReview={this.onSendReview}
-                                        />
-                                    }
-                                </ProductColumnLeftContent>
-                            </ProductColumnLeft>
+        let productContent = <Spinner/>;
 
+        if (!isLoadingProductInformation) productContent = (
+        <ReviewItemFull 
+            isLoggedIn={ isLoggedIn }
+            productInformation={ productInformation }
+            productReviews={ productReviews }
+            isLoadingProductReviews={ isLoadingProductReviews }
+            newReviewError={ newReviewError }
 
+            createReviewControlsConfig= {{
+                ratingValue: this.state.isHoveredRateValue,
+                reviewText: this.state.newReviewInform.text,
+                onChangeTextReview: this.onChangeNewReview,
+                onRatingClick: this.onRatingClick,
+                onRatingHover: this.onRatingHover,
+                onRatingHoverOut: this.onRatingHoverOut,
+                onSendReview: this.onSendReview,
 
-                            <ProductColumnRight>
-                                {
-                                    productReviews ? <ReviewList reviewList={ productReviews } /> : <p>No reviews</p>
-                                }
-                            </ProductColumnRight>
-                        </React.Fragment>
-                }
-            </ProductWrapper>
+            }}
+        /> 
         )
+
+
+        return productContent
     }
 }
 
