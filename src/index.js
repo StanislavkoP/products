@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './normalize.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import { StateProvider } from './state/StateContext';
 import { getItemFromLocalStorage } from './Share/LocalStorage';
+import * as actionTypes from './state/actionTypes';
+import * as serviceWorker from './serviceWorker';
 
 const userToken = getItemFromLocalStorage('token');
 
@@ -18,32 +19,32 @@ const initialState = {
   
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'AUTH_USER_SUCCESS':
+        case actionTypes.AUTH_USER:
             return {
                 ...state,
                 isLoggedIn: action.isLoggedIn,
                 userName: action.userName
             }
 
-        case 'USER_LOG_OUT':
+        case actionTypes.USER_LOG_OUT:
             return {
                 ...state,
                 isLoggedIn: false
             }
         
-        case 'GET_PRODUCT_LIST_SUCCESS':
+        case actionTypes.GET_PRODUCT_LIST:
             return {
                 ...state,
                 productList: action.productList
             }
 
-        case 'GET_PRODUCT_REVIEW':
+        case actionTypes.GET_PRODUCT_REVIEWS:
             return {
                 ...state,
                 productReviewList: action.reviews
             }
 
-        case 'ADD_NEW_REVIEW':
+        case actionTypes.ADD_NEW_REVIEW:
             const reviewList = state.productReviewList.get(action.productId);
             const newReviewList = [...reviewList, action.review];
 

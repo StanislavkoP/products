@@ -1,0 +1,7 @@
+export const AUTH_USER = 'AUTH_USER';
+export const USER_LOG_OUT = 'USER_LOG_OUT';
+
+export const GET_PRODUCT_LIST = 'GET_PRODUCT_LIST';
+export const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
+
+export const ADD_NEW_REVIEW = 'ADD_NEW_REVIEW';
