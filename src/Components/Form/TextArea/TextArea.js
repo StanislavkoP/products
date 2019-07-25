@@ -5,12 +5,13 @@ function TextArea(props) {
     const {
         name,
         onChange,
-        value
+        value,
+        ...otherProps
 
     } = props;
 
     return (
-        <StyledTextArea name={name} onChange={onChange} value={ value }/>
+        <StyledTextArea name={name} onChange={onChange} value={ value } {...otherProps}/>
     )
 }
 

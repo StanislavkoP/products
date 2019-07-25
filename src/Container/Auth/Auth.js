@@ -13,10 +13,36 @@ class Auth extends React.Component {
     }
 
     static contextType = StateContext;
+<<<<<<< HEAD
+=======
+
+    hideErrorMessage = () => {
+        this.setState({ errorMessage: null })
+    };
+>>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
 
     onSendAuthForm = (userData, typeAuth) => {
         const [, dispatch] = this.context;
+        
+        let isFieldEmpty = true;
+        
+        Object.keys(userData).forEach(nameField => {
+            if (userData[nameField].trim().length !== 0) isFieldEmpty = isFieldEmpty && false;
 
+            
+        });
+
+<<<<<<< HEAD
+=======
+        if (isFieldEmpty) {
+            this.setState({
+                errorMessage: 'Please, enter the all fields'
+            });
+
+            return;
+        }
+
+>>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
         this.setState({ sendFormLoading: true } , () => {
             sendForm.call(this);
         });
@@ -71,6 +97,7 @@ class Auth extends React.Component {
             <AuthForm
                 onSendForm={this.onSendAuthForm}
                 errorMessage={ errorMessage }
+                hideErrorMessage= { this.hideErrorMessage }
             />
         )
     }
