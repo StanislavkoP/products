@@ -7,8 +7,6 @@ export const StyledProductList = styled.ul`
     padding: 0;
     margin: 0;
     list-style: none;
-<<<<<<< HEAD
-=======
 
     @media only screen and (max-width: 560px) {
         margin-right: 0;
@@ -16,5 +14,4 @@ export const StyledProductList = styled.ul`
         align-items: center;
     }
 
->>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
 `;
