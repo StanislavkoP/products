@@ -37,7 +37,7 @@ function App() {
       });
 
       setTimeout(() => {
-        dispatch({type: 'USER_LOG_OUT'});
+        dispatch({type: actionTypes.USER_LOG_OUT});
         navigate('/logout', true);
         
       }, 120 * 60 * 1000)
