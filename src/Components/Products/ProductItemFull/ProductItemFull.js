@@ -12,6 +12,7 @@ function ProductItemFull(props) {
         productInformation,
         productReviews,
         isLoadingProductReviews,
+        isLoadingCreateReview,
         createReviewControlsConfig,
         newReviewError
 
