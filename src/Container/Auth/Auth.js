@@ -4,9 +4,10 @@ import AuthForm from './AuthForm/AuthForm';
 import Api from '../../Share/Api';
 import { setItemToLocalStorage } from '../../Share/LocalStorage';
 import { StateContext } from '../../state/StateContext';
+import * as actionTypes from '../../state/actionTypes';
+
 
 class Auth extends React.Component {
-
     state = {
         errorMessage: null,
         isRequestFormLoading: false,
@@ -25,8 +26,6 @@ class Auth extends React.Component {
         
         Object.keys(userData).forEach(nameField => {
             if (userData[nameField].trim().length !== 0) isFieldEmpty = isFieldEmpty && false;
-
-            
         });
 
         if (isFieldEmpty) {
@@ -57,7 +56,7 @@ class Auth extends React.Component {
                         setItemToLocalStorage('userName', userData.name);
 
                         dispatch({
-                            type: 'AUTH_USER_SUCCESS',
+                            type: actionTypes.AUTH_USER,
                             isLoggedIn: true,
                             userName: userData.name
                         });

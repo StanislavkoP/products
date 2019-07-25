@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Api from '../Share/Api';
 import { StateContext } from '../state/StateContext';
+import * as actionTypes from '../state/actionTypes';
+
 import ProductList from '../Components/Products/ProductsList/ProductsList';
 
 export class Dashboard extends Component {
@@ -20,7 +22,8 @@ export class Dashboard extends Component {
                 });
                 
                 dispatch({
-                    type: 'GET_PRODUCT_LIST_SUCCESS', productList: newProductList
+                    type: actionTypes.GET_PRODUCT_LIST,
+                    productList: newProductList,
                 });
             })
     }
@@ -29,9 +32,7 @@ export class Dashboard extends Component {
         const [{ productList }] = this.context;
 
         return (
-            <ProductList 
-                productList={ [...productList.values()] }
-            />
+            <ProductList productList={ [...productList.values()] } />
         )
     }
 };

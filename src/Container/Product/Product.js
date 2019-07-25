@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StateContext } from '../../state/StateContext';
 import Api from '../../Share/Api';
+import * as actionTypes from '../../state/actionTypes';
+
 
 import ReviewItemFull from '../../Components/Products/ProductItemFull/ProductItemFull';
-import Spinner from '../../Components/Spinner/Spinner';
+import { DotsSpinner } from '../../Components/Spinners/Spinners';
 
-
-export class Product extends Component {
-
+class Product extends Component {
     state = {
         productInformation: null,
         productReviews: [],
@@ -31,14 +31,20 @@ export class Product extends Component {
 
         if (productReviewList.has(productId)) {
             const productReviews = productReviewList.get(parseFloat(productId))
-            this.setState({productReviews, isLoadingProductReviews: false});
+            this.setState({
+                productReviews,
+                isLoadingProductReviews: false
+            });
 
             return;
         }
 
         if (productList.has(productId)) {
             const productInformation = productList.get(parseFloat(productId))
-            this.setState({productInformation, isLoadingProductInformation: false});
+            this.setState({
+                productInformation,
+                isLoadingProductInformation: false
+            });
 
             return;
         }
@@ -55,7 +61,7 @@ export class Product extends Component {
                 this.setState({productInformation: newProductList.get(parseFloat(productId)), isLoadingProductInformation: false})
                 
                 dispatch({
-                    type: 'GET_PRODUCT_LIST_SUCCESS', productList: newProductList
+                    type: actionTypes.GET_PRODUCT_LIST, productList: newProductList
                 });
             })
 
@@ -69,7 +75,7 @@ export class Product extends Component {
                 this.setState({productReviews, isLoadingProductReviews: false})
 
                 dispatch({
-                    type: 'GET_PRODUCT_REVIEW',
+                    type: actionTypes.GET_PRODUCT_REVIEWS,
                     reviews: newProductReviews
                 });
             })
@@ -133,14 +139,15 @@ export class Product extends Component {
                 const lastReviewId = lastReview.id;
                 
                 const newReview = {};
+                newReview.created_by = {};
+                newReview.created_by.username = userName;
                 newReview.id = lastReviewId + 1;
-                newReview.username = userName;
                 newReview.rate = newReviewInform.rate;
                 newReview.text = newReviewInform.text;
                 newReview.created_at = new Date();
-            
+                         
                 dispatch({
-                    type: 'ADD_NEW_REVIEW',
+                    type: actionTypes.ADD_NEW_REVIEW,
                     productId: parseInt(productId),
                     review: newReview
 
@@ -180,7 +187,7 @@ export class Product extends Component {
 
         } = this.state;
 
-        let productContent = <Spinner/>;
+        let productContent = <DotsSpinner/>;
 
         if (!isLoadingProductInformation) {
             productContent = (
