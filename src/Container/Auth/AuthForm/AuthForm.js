@@ -5,7 +5,7 @@ import TextInput from '../../../Components/Form/InputText/InputText';
 import Button from '../../../Components/Button/Button';
 import TypeAuthSwitcher from './TypeAuthSwitcher/TypeAuthSwitcher';
 
-function AuthForm ({onSendForm, errorMessage, hideErrorMessage}) {
+function AuthForm ({onSendForm, errorMessage, hideErrorMessage, isRequestFormLoading}) {
     const [userData, setUserData] = useState({name: '', password: ''});
     const [typeAuth, setTypeAuth] = useState('logIn');
 
@@ -44,7 +44,7 @@ function AuthForm ({onSendForm, errorMessage, hideErrorMessage}) {
                     <TextInput name="password" onChange={ onChangeInput }/>
                 </InputGroup>
 
-                <Button type="button" onClick={() => onSendForm(userData, typeAuth)}>Send</Button>
+                <Button type="button" onClick={() => onSendForm(userData, typeAuth)} isLoading={ isRequestFormLoading } >Send</Button>
             </StyledAuthForm>
     )
 };

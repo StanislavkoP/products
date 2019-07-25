@@ -11,7 +11,8 @@ function ControlsCreateReview(props) {
         onRatingClick,
         onRatingHover,
         onRatingHoverOut,
-        onSendReview
+        onSendReview,
+        isLoadingCreateReview
 
     } = props;
 
@@ -36,7 +37,7 @@ function ControlsCreateReview(props) {
                 <CreateReviewTextArea name="text" onChange={onChangeTextReview} value={ reviewText }/>
             </CreateReviewInputGroup>
 
-            <Button type="button" onClick={onSendReview}>Send</Button>
+            <Button type="button" onClick={onSendReview} isLoading={ isLoadingCreateReview }>Send</Button>
         </CreateReviewForm>
     )
 }

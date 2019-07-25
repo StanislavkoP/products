@@ -2,14 +2,8 @@ import React, { Component } from 'react';
 import { StateContext } from '../../state/StateContext';
 import Api from '../../Share/Api';
 
-<<<<<<< HEAD
-import ControlsCreateReview from './ControlsCreateReview/ControlsCreateReview';
-import StarRatingPanel from '../../Components/Form/StarRating/StarRating';
-import { ProductWrapper, ProductImgWrapper, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent } from './ProductStyles';
-=======
 import ReviewItemFull from '../../Components/Products/ProductItemFull/ProductItemFull';
 import Spinner from '../../Components/Spinner/Spinner';
->>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
 
 
 export class Product extends Component {
@@ -26,6 +20,7 @@ export class Product extends Component {
         isRatingClicked: false,
         isLoadingProductInformation: true,
         isLoadingProductReviews: true,
+        isLoadingCreateReview: false,
     }
 
     static contextType = StateContext;
@@ -124,6 +119,10 @@ export class Product extends Component {
             return;
         }
 
+        this.setState({
+            isLoadingCreateReview: true
+        });
+
         Api.productsApi.sendNewReview(productId, newReviewInform)
             .then(response => {
                 const [{ productReviewList, userName }, dispatch] = this.context;
@@ -158,111 +157,55 @@ export class Product extends Component {
                     },
                     isHoveredRateValue: 0,
                     isRatingClicked: false,
+                    isLoadingCreateReview: false,
                 });
+            })
+            .catch(error => {
+                console.log(error.response);
+                this.setState({newReviewError: error.response});
             })
     };
     
     render() {
-<<<<<<< HEAD
-        const { productInformation, productReviews } = this.state;
         const [{ isLoggedIn }] = this.context;
+        const { 
+            productInformation,
+            productReviews,
+            isLoadingProductInformation,
+            isLoadingProductReviews,
+            newReviewError,
+            newReviewInform,
+            isLoadingCreateReview,
+            isHoveredRateValue
 
-        let productReviewsContent = null;
-        if (productReviews) {
-            productReviewsContent = productReviews.map(review => (
-                <div key={review.id} style={{borderBottom: '1px solid black'}}>
-                    {
-                        review.created_by
-                        &&
-                        <div>
-                            <div>{ review.created_by.first_name }</div>
-                            <div>{ review.created_by.last_name }</div>
-                            <div>{ review.created_by.email }</div>
-                            <div>{ review.created_by.username }</div>
-                        </div>
-                    }
-                    <p>
-                        { review.text }
-                    </p>
-                    <p>
-                        { new Date(review.created_at).toLocaleDateString() }
-                    </p>
-                    <StarRatingPanel
-                        name={ review.id.toString() }
-                        starCount={ 5 }
-                        value={ review.rate }
-                        editing={false}
-                    />
-                </div>
-            ))
-        }
-
-        return (
-            <ProductWrapper>
-                {
-                    productInformation
-                    &&               
-                        <React.Fragment>
-                            <ProductColumnLeft>
-                                <ProductColumnLeftContent>
-                                    <ProductImgWrapper>
-                                        <img src={`${baseURL}/static/${productInformation.img}`} alt={productInformation.title}/>
-                                    </ProductImgWrapper>
-                                    <p>{ productInformation.title }</p>
-                                    {
-                                        isLoggedIn
-                                        &&
-                                        <ControlsCreateReview 
-                                        ratingValue={this.state.isHoveredRateValue}
-                                        reviewText={this.state.newReviewInform.text}
-                                        onChangeTextReview={this.onChangeNewReview}
-                                        onRatingClick={this.onRatingClick}
-                                        onRatingHover={this.onRatingHover}
-                                        onRatingHoverOut={this.onRatingHoverOut}
-                                        onSendReview={this.onSendReview}
-                                        />
-                                    }
-                                </ProductColumnLeftContent>
-                            </ProductColumnLeft>
-
-
-
-                            <ProductColumnRight>
-                                {
-                                    productReviewsContent
-                                }
-                            </ProductColumnRight>
-                        </React.Fragment>
-                }
-            </ProductWrapper>
-=======
-        const { productInformation, productReviews, isLoadingProductInformation, isLoadingProductReviews, newReviewError } = this.state;
-        const [{ isLoggedIn }] = this.context;
+        } = this.state;
 
         let productContent = <Spinner/>;
 
-        if (!isLoadingProductInformation) productContent = (
-        <ReviewItemFull 
-            isLoggedIn={ isLoggedIn }
-            productInformation={ productInformation }
-            productReviews={ productReviews }
-            isLoadingProductReviews={ isLoadingProductReviews }
-            newReviewError={ newReviewError }
+        if (!isLoadingProductInformation) {
+            productContent = (
+                <ReviewItemFull 
+                    isLoggedIn={ isLoggedIn }
+                    productInformation={ productInformation }
+                    productReviews={ productReviews }
+                    isLoadingProductReviews={ isLoadingProductReviews }
+                    newReviewError={ newReviewError }
+                    
+                    createReviewControlsConfig= {{
+                        ratingValue: isHoveredRateValue,
+                        reviewText: newReviewInform.text,
+                        onChangeTextReview: this.onChangeNewReview,
+                        onRatingClick: this.onRatingClick,
+                        onRatingHover: this.onRatingHover,
+                        onRatingHoverOut: this.onRatingHoverOut,
+                        onSendReview: this.onSendReview,
+                        isLoadingCreateReview: isLoadingCreateReview
 
-            createReviewControlsConfig= {{
-                ratingValue: this.state.isHoveredRateValue,
-                reviewText: this.state.newReviewInform.text,
-                onChangeTextReview: this.onChangeNewReview,
-                onRatingClick: this.onRatingClick,
-                onRatingHover: this.onRatingHover,
-                onRatingHoverOut: this.onRatingHoverOut,
-                onSendReview: this.onSendReview,
 
-            }}
-        /> 
->>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
-        )
-
+                    }}
+                /> 
+            )
+        };
 
         return productContent
     }

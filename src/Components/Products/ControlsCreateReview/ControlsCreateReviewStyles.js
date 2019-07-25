@@ -10,7 +10,7 @@ export const CreateReviewForm = styled(Form)`
 `;
 
 export const CreateReviewTextArea = styled(TextArea)`
-    height: 200px;
+    height: 20vh;
     width: 100%;
 `;
 

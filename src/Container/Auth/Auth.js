@@ -9,17 +9,14 @@ class Auth extends React.Component {
 
     state = {
         errorMessage: null,
-        sendFormLoading: false,
+        isRequestFormLoading: false,
     }
 
     static contextType = StateContext;
-<<<<<<< HEAD
-=======
 
     hideErrorMessage = () => {
         this.setState({ errorMessage: null })
     };
->>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
 
     onSendAuthForm = (userData, typeAuth) => {
         const [, dispatch] = this.context;
@@ -32,8 +29,6 @@ class Auth extends React.Component {
             
         });
 
-<<<<<<< HEAD
-=======
         if (isFieldEmpty) {
             this.setState({
                 errorMessage: 'Please, enter the all fields'
@@ -42,8 +37,7 @@ class Auth extends React.Component {
             return;
         }
 
->>>>>>> b1fc9803ae954370c8780318dbb190d2a35b4c4e
-        this.setState({ sendFormLoading: true } , () => {
+        this.setState({ isRequestFormLoading: true } , () => {
             sendForm.call(this);
         });
 
@@ -56,7 +50,7 @@ class Auth extends React.Component {
             .then(response => {
                 if (response.success) {
                     this.setState({
-                        sendFormLoading: false
+                        isRequestFormLoading: false
                     
                     }, () => {
                         setItemToLocalStorage('token', response.token);
@@ -74,14 +68,17 @@ class Auth extends React.Component {
                 } else {
                     this.setState({
                         errorMessage: response.message,
-                        sendFormLoading: false
+                        isRequestFormLoading: false
                     })
 
                     throw Error(response.message);
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.log(error)
+                this.setState({
+                    isRequestFormLoading: false
+                })
             })
     
         }
@@ -89,8 +86,9 @@ class Auth extends React.Component {
 
     render () {
         const {
-            errorMessage
-            
+            errorMessage,
+            isRequestFormLoading,
+
         } = this.state;
 
         return (
@@ -98,6 +96,7 @@ class Auth extends React.Component {
                 onSendForm={this.onSendAuthForm}
                 errorMessage={ errorMessage }
                 hideErrorMessage= { this.hideErrorMessage }
+                isRequestFormLoading={ isRequestFormLoading }
             />
         )
     }
