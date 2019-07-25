@@ -6,7 +6,7 @@ export const ReviewItemWrapper = styled.li`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #80808026;
+    background-color: rgba(128,128,128, 0.15);
     border-radius: 20px;
     padding: 25px;
     padding-top: 12px;

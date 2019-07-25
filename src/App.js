@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import { useRoutes, navigate } from 'hookrouter';
 import { useStateValue } from './state/StateContext';
 import { getItemFromLocalStorage } from './Share/LocalStorage';
+import * as actionTypes from './state/actionTypes';
 
 import PrivateRouter from './Container/PrivateRoute';
 import Header from './Components/Header/Header';
@@ -10,9 +10,6 @@ import AuthPage from './Container/Auth/Auth';
 import LogOutPage from './Container/LogOut';
 import DashboardPage from './Container/Dashboard';
 import ProductPage from './Container/Product/Product';
-
-import './App.css';
-
 
 const routes = {
   '/': () =>  () => <DashboardPage/>,
@@ -34,7 +31,7 @@ function App() {
       const userName = getItemFromLocalStorage('userName');
 
       dispatch({
-          type: 'AUTH_USER_SUCCESS',
+          type: actionTypes.AUTH_USER,
           isLoggedIn: true,
           userName
       });

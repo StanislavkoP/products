@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyledButton, ChildrenWrapp } from './ButtonStyles';
-import SimpleSpinner from '../SimpleSpinner/SimpleSpinner';
+import { SimpleSpinner } from '../Spinners/Spinners';
 
 
 function Button(props) {

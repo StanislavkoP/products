@@ -3,7 +3,7 @@ import { baseURL } from '../../../Share/Api';
 
 import ControlsCreateReview from '../ControlsCreateReview/ControlsCreateReview';
 import ReviewList from '../../Review/ReviewList/ReviewList';
-import Spinner from '../../Spinner/Spinner';
+import { DotsSpinner } from '../../Spinners/Spinners';
 import { ProductWrapper, ProductImgWrapper, ProductTitle, ProductColumnLeft, ProductColumnRight, ProductColumnLeftContent, ErrorMessage } from './ProductItemFullStyles';
 
 function ProductItemFull(props) {
@@ -12,13 +12,12 @@ function ProductItemFull(props) {
         productInformation,
         productReviews,
         isLoadingProductReviews,
-        isLoadingCreateReview,
         createReviewControlsConfig,
         newReviewError
 
     } = props;
 
-    let reviewListContent = <Spinner/>
+    let reviewListContent = <DotsSpinner/>
 
     if (!isLoadingProductReviews) {
         reviewListContent = (

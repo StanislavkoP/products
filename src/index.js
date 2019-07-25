@@ -15,7 +15,7 @@ const initialState = {
     userName: '',
     productList: new Map(),
     productReviewList: new Map()
-}
+};
   
 const reducer = (state, action) => {
     switch (action.type) {
